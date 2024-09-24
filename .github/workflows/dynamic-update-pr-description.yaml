@@ -13,8 +13,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_NUMBER=${{ github.event.number }}
+          PR_NUMBER=${{ github.event.pull_request.number }}
           BRANCH_NAME=${{ github.event.pull_request.head.ref }}
-          CURRENT_DESCRIPTION="${{ github.event.pull_request.body }}"
+          REPO=${{ github.repository }}
+          
+          CURRENT_DESCRIPTION=$(echo "${{ github.event.pull_request.body }}")
+
           UPDATED_DESCRIPTION=$(echo "$CURRENT_DESCRIPTION" | sed "s/{{PR_NUMBER}}/$PR_NUMBER/g" | sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g")
-          gh pr edit $PR_NUMBER --body "$UPDATED_DESCRIPTION"
+
+          curl -X PATCH \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\":\"$UPDATED_DESCRIPTION\"}" \
+            "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"

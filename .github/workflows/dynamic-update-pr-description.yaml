@@ -30,9 +30,9 @@ jobs:
           curl -X PATCH \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
+            https://api.github.com/repos/$REPO/pulls/$PR_NUMBER
             -d @- <<EOF
           {
             "body": "$UPDATED_DESCRIPTION"
           }
           EOF
-          "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"

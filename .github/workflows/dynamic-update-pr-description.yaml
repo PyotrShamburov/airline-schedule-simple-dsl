@@ -20,16 +20,19 @@ jobs:
           BRANCH_NAME=${{ github.event.pull_request.head.ref }}
           REPO=${{ github.repository }}
 
-          CURRENT_DESCRIPTION=$(echo "${{ github.event.pull_request.body }}")
+          CURRENT_DESCRIPTION="${{ github.event.pull_request.body }}"
 
-          UPDATED_DESCRIPTION=$(
-          echo "$CURRENT_DESCRIPTION" |
-          sed "s/{{PR_NUMBER}}/$PR_NUMBER/g" |
-          sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g"
+          UPDATED_DESCRIPTION=$(echo "$CURRENT_DESCRIPTION" |
+            sed "s/{{PR_NUMBER}}/$PR_NUMBER/g" |
+            sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g"
           )
 
-          curl -L PATCH \
+          curl -X PATCH \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            https://api.github.com/repos/$REPO/pulls/$PR_NUMBER \
-            -d '{\"body\":\"$UPDATED_DESCRIPTION\"}'
+            -d @- <<EOF
+          {
+            "body": "$UPDATED_DESCRIPTION"
+          }
+          EOF
+          "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"

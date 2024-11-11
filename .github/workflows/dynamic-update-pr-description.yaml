@@ -1,5 +1,8 @@
 name: Update PR Description with Dynamic Values
 
+permissions:
+  pull-requests: write
+
 on:
   pull_request:
     types: [ opened ]
@@ -26,7 +29,7 @@ jobs:
           )
 
           curl -X PATCH \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
             -d "{\"body\":\"$UPDATED_DESCRIPTION\"}" \
             "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"

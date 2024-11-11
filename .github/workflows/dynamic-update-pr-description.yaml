@@ -28,8 +28,8 @@ jobs:
           sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g"
           )
 
-          curl -X PATCH \
-            -H "Accept: application/vnd.github+json" \
+          curl -L PATCH \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -d "{\"body\":\"$UPDATED_DESCRIPTION\"}" \
-            "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/$REPO/pulls/$PR_NUMBER \
+            -d '{\"body\":\"$UPDATED_DESCRIPTION\"}'

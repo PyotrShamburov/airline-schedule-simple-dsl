@@ -16,5 +16,9 @@ jobs:
           PR_NUMBER=${{ github.event.number }}
           BRANCH_NAME=${{ github.event.pull_request.head.ref }}
           CURRENT_DESCRIPTION="${{ github.event.pull_request.body }}"
-          UPDATED_DESCRIPTION=$(echo "$CURRENT_DESCRIPTION" | sed "s/{{PR_NUMBER}}/$PR_NUMBER/g" | sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g")
+          UPDATED_DESCRIPTION=$(
+          echo "$CURRENT_DESCRIPTION" |
+          sed "s/PR_NUMBER/$PR_NUMBER/g" |
+          sed "s/BRANCH_NAME/$BRANCH_NAME/g"
+          )
           gh pr edit $PR_NUMBER --body "$UPDATED_DESCRIPTION"

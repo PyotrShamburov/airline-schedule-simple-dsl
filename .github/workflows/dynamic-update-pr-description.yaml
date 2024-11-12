@@ -19,10 +19,17 @@ jobs:
           PR_NUMBER=${{ github.event.pull_request.number }}
           BRANCH_NAME=${{ github.event.pull_request.head.ref }}
           REPO=${{ github.repository }}
+          
+          if [[ "$BRANCH_NAME" == PLZMX* || "$BRANCH_NAME" == MMMX* ]]; then
+            ISSUE_LINK="https://plazo-idf.atlassian.net/browse/${BRANCH_NAME}"
+          else
+            ISSUE_LINK=""
+          fi
 
           CURRENT_DESCRIPTION="${{ github.event.pull_request.body }}"
 
           UPDATED_DESCRIPTION=$(echo "$CURRENT_DESCRIPTION" |
+            sed "s/{{ISSUE_LINK}}/$ISSUE_LINK/g" |
             sed "s/{{PR_NUMBER}}/$PR_NUMBER/g" |
             sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g"
           )

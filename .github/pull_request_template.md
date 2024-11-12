@@ -1,4 +1,4 @@
-https://plazo-idf.atlassian.net/browse/{{BRANCH_NAME}}
+{{ISSUE_LINK}}
 
 PR NUMBER = {{PR_NUMBER}}
 BRANCH NAME = {{BRANCH_NAME}}

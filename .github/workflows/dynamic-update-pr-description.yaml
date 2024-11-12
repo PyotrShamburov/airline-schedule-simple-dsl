@@ -29,9 +29,9 @@ jobs:
           CURRENT_DESCRIPTION="${{ github.event.pull_request.body }}"
 
           UPDATED_DESCRIPTION=$(echo "$CURRENT_DESCRIPTION" |
-            sed "s/{{ISSUE_LINK}}/$ISSUE_LINK/g" |
-            sed "s/{{PR_NUMBER}}/$PR_NUMBER/g" |
-            sed "s/{{BRANCH_NAME}}/$BRANCH_NAME/g"
+            sed "s|{{ISSUE_LINK}}|$ISSUE_LINK|g" |
+            sed "s|{{PR_NUMBER}}|$PR_NUMBER|g" |
+            sed "s|{{BRANCH_NAME}}|$BRANCH_NAME|g"
           )
 
           curl -X PATCH \

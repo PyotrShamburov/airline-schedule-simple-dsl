@@ -1,4 +1,4 @@
-name: Update PR Description with Dynamic Values
+name: Update PR Description
 
 permissions:
   pull-requests: write

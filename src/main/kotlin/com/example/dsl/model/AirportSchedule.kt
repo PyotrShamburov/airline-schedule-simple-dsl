@@ -1,7 +1,7 @@
 package com.example.dsl.model
 
 class AirportSchedule private constructor(
-  private val flights: Set<Flight>
+  private val flights: Set<Flight>,
 ) {
 
   data class Builder(
